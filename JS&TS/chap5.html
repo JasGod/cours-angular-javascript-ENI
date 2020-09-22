@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function somme(a, b) {
+        return a + b;
+      }
+      // document.writeln(somme(5, 4));
+      let maxDedeuxNbres = (a, b) => {
+        // if (a > b) {
+        //   return a;
+        // }
+        // return b;
+
+        return a > b ? (retour = a) : (retour = b);
+      };
+
+      let maxDetroisNbres = (a, b, c) => {
+        if (a > b && a > c) {
+          return a;
+        } else if (b > a && b > c) {
+          return b;
+        }
+        return c;
+      };
+
+      let maxDetroisNbresBis = (a, b, c) => {
+        return maxDedeuxNbres(a, maxDedeuxNbres(b, c));
+      };
+
+      let factorielle = (a) => {
+        if (a == 0) {
+          return 1;
+        }
+        let f = a;
+        for (let i = a - 1; i > 0; i--) {
+          f *= i;
+        }
+        return f;
+      };
+
+      document.writeln("<p>le max est: " + maxDedeuxNbres(4, 6) + "</p>");
+    </script>
+  </body>
+</html>

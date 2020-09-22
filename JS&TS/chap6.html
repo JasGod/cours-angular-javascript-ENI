@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let CreatPers = (n, p) => {
+        let objet = {
+          nom: n,
+          prenom: p,
+          presenteToi() {
+            console.log(this.nom + " " + this.prenom);
+          },
+        };
+        return objet;
+      };
+      //   let monObjet = {
+      //     nom: "train",
+      //     prenom: "car",
+      //     presenteToi() {
+      //       console.log(this.nom + " " + this.prenom);
+      //     },
+      //   };
+
+      function Person(n, p) {
+        this.nom = n;
+        this.prenom = p;
+        this.presenteToi = () => {
+          console.log(this.nom + " " + this.prenom);
+        };
+      }
+
+      let cony = new Person("Tony", "Orelien");
+      // cony.presenteToi();
+
+      let you = (n) => {
+        console.log(n);
+      };
+      // you("Salut c'est un test de procédure!");
+
+      class Chat {
+        constructor(nom) {
+          this._nom = nom || "Garfield";
+        }
+        getNom() {
+          return this._nom;
+        }
+        setNom(nom) {
+          this._nom = nom;
+        }
+      }
+
+      const unchat = new Chat("Lion");
+      unchat.setNom("chatou");
+      console.log(unchat.getNom());
+
+      class Menu {
+        constructor() {
+          console.log("Nouveau menu");
+        }
+        static entree = "Brochettes/macedoine<br/>";
+        static resistance = "Riz sauté!!<br/>";
+        static dessert = "crêpes";
+      }
+      // document.writeln("<h4> MENU de Resto</h4>");
+      // document.writeln(Menu.entree);
+      // document.writeln(Menu.resistance);
+      // document.writeln(Menu.dessert);
+
+      // TP
+      class Attaque {
+        constructor(l, d) {
+          this.l = l;
+          this.d = d;
+        }
+        afficheAttaque() {
+          return (
+            "Label de l'attaque: " + this.l + " dégât de l'attaque: " + this.d
+          );
+        }
+      }
+      class Pokemon {
+        pvRest;
+        constructor(
+          nom,
+          number,
+          taille,
+          poids,
+          type,
+          pv,
+          label1,
+          pd1,
+          label2,
+          pd2
+        ) {
+          this.nom = nom;
+          this.number = number;
+          this.taille = taille;
+          this.poids = poids;
+          this.type = type;
+          this.pv = pv;
+          this.attaque1 = new Attaque(label1, pd1);
+          this.attaque2 = new Attaque(label2, pd2);
+        }
+        rePv() {
+          this.pvRest = this.pv;
+        }
+        getInfo() {
+          return (
+            "Nom: " +
+            this.nom +
+            "<br>" +
+            "Numéro: " +
+            this.number +
+            "<br>" +
+            "Taille: " +
+            this.taille +
+            "cm<br>" +
+            "Poids: " +
+            this.poids +
+            "kg<br>" +
+            "Type: " +
+            this.type +
+            "<br>" +
+            "PV: " +
+            this.pv +
+            "<br>" +
+            this.attaque1.afficheAttaque() +
+            "<br>" +
+            this.attaque2.afficheAttaque()
+          );
+        }
+        attaque(Pokemon) {
+          let attaqueUse;
+          let degatInfl;
+          if (this.pvRest > 0.2 * this.pv) {
+            attaqueUse = this.attaque1;
+          } else {
+            attaqueUse = this.attaque2;
+          }
+          if (Math.random() < 0.1) {
+            degatInfl = attaqueUse.d * 2;
+          } else {
+            degatInfl = attaqueUse.d;
+          }
+          return degatInfl;
+        }
+      }
+      class Combat {
+        constructor(com1, com2) {
+          if (Math.random() > 0.5) {
+            this.com1 = com1;
+            this.com2 = com2;
+          } else {
+            this.com1 = com2;
+            this.com2 = com1;
+          }
+          document.writeln(
+            "<h4>" + this.com1.nom + " VS " + this.com2.nom + "</h4>"
+          );
+          document.writeln(
+            "C'est " + this.com1.nom + " qui commence le combat."
+          );
+          document.writeln("<hr>");
+        }
+        winner(com1, com2) {
+          let winner;
+          if (com1.pvRest > 0) {
+            winner = com1;
+          }
+          if (com2.pvRest > 0) {
+            winner = com2;
+          }
+          if (com1.pvRest < 0 && com2.pvRest < 0) {
+            winner = null;
+          }
+          return winner;
+        }
+        combat() {
+          this.com1.rePv();
+          this.com2.rePv();
+          document.writeln(
+            this.com1.nom + " a " + this.com1.pv + " points de vie <br>"
+          );
+          document.writeln(
+            this.com2.nom + " a " + this.com2.pv + " points de vie"
+          );
+          document.writeln("<hr>");
+          let degat;
+          while (this.com1.pvRest > 0 && this.com2.pvRest > 0) {
+            degat = this.com1.attaque(this.com2);
+            this.com2.pvRest -= degat;
+            document.writeln(
+              "<p>" +
+                this.com1.nom +
+                " a attaqué. il fait " +
+                degat +
+                "de dégâts.<br>"
+            );
+            degat = this.com2.attaque(this.com1);
+            this.com1.pvRest -= degat;
+            document.writeln(
+              this.com2.nom + " a attaqué. il fait " + degat + " de dégâts.</p>"
+            );
+          }
+          let vainqueur = this.winner(this.com1, this.com2);
+          if (vainqueur) {
+            document.writeln(
+              "<h4>" +
+                vainqueur.nom +
+                " est le gagnant du match, avec " +
+                vainqueur.pvRest +
+                " points de vie restants.</h4>"
+            );
+          } else {
+            document.writeln("<h4>EGALITÉ</h4>");
+          }
+        }
+      }
+      const pokemon1 = new Pokemon(
+        "Pikachu",
+        025,
+        40,
+        6,
+        "electrique",
+        82,
+        "statik",
+        10,
+        "paratonnerre",
+        25
+      );
+      const pokemon2 = new Pokemon(
+        "Evoli",
+        133,
+        30,
+        6.5,
+        "normale",
+        70,
+        "adaptabilité",
+        9,
+        "anticipation",
+        15
+      );
+      document.writeln("INFO des Pokémons: <br/><br/>");
+      document.writeln(pokemon1.getInfo());
+      document.writeln("<br><br>");
+      document.writeln(pokemon2.getInfo());
+      document.writeln("<br><br><hr>");
+      const versus = new Combat(pokemon1, pokemon2);
+      versus.combat();
+    </script>
+  </body>
+</html>
